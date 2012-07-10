@@ -23,19 +23,7 @@ class controller_home extends controller_b  {
           $this->tpl->setVar('document',lib_fsql::find('document',"template = 0","time","desc"));
 	 * 
 	 */
-	try {
-	    $q = $this->reg->postgresql->erati->query("SELECT * FROM temp");
-	    if($q)  {
-		foreach($q as $r)   {
-		 var_dump($r);
-		}
-	    }
-	    var_dump($this->reg->postgresql->erati->errorInfo());
-	    var_dump($q);
-	} catch (PDOException $e)   {
-	    var_dump($e);
-	}
-	   
+		   
 	
 	$this->tpl->setVar('user',lib_fsql::find('user'));
     }
