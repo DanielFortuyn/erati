@@ -7,5 +7,4 @@ import/klant:
     SELECT * FROM `contact` WHERE name LIKE '%afd%' OR name LIKE '%t.a.v.%' OR name LIKE '% tav'
 
 
-http://www.wikivs.com/wiki/MySQL_vs_PostgreSQL#Licensing
-gitHubHooktest Test
+http://www.wikivs.com/wiki/MySQL_vs_PostgreSQL
