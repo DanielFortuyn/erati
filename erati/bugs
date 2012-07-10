@@ -1,0 +1,10 @@
+[Framework]
+Exception by insert / save / update
+
+[Functionaliteit]
+import/klant: 
+    Contactpersonen zijn soms geen personen:
+    SELECT * FROM `contact` WHERE name LIKE '%afd%' OR name LIKE '%t.a.v.%' OR name LIKE '% tav'
+
+
+http://www.wikivs.com/wiki/MySQL_vs_PostgreSQL#Licensing

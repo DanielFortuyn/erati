@@ -1,0 +1,1 @@
+<input class="inactive" type="text" onclick="cf(this)" onblur="ff(this,'Zoeken...')" name="zoeken" value="Zoeken..." id="search"/>

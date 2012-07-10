@@ -1,0 +1,21 @@
+CREATE TABLE "customer" (
+  "id" int(11) NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "attention" varchar(255) NOT NULL COMMENT 'attention als in t.a.v',
+  "street" varchar(255) NOT NULL,
+  "house" varchar(255) NOT NULL,
+  "zipCode" varchar(255) NOT NULL DEFAULT '',
+  "city" varchar(255) NOT NULL,
+  "discountGroup" varchar(255) NOT NULL DEFAULT '',
+  "phone" varchar(255) NOT NULL DEFAULT '',
+  "fax" varchar(255) NOT NULL DEFAULT '',
+  "priceGroup" varchar(255) NOT NULL DEFAULT '',
+  "IBAN" varchar(255) NOT NULL DEFAULT '',
+  "currencyCode" varchar(255) NOT NULL DEFAULT '',
+  "email" varchar(255) NOT NULL,
+  "VAT" varchar(255) NOT NULL,
+  "kvk" varchar(255) NOT NULL,
+  "branchCode" int(11) NOT NULL DEFAULT '0',
+  "data" text NOT NULL,
+  PRIMARY KEY ("id")
+);

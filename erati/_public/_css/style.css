@@ -1,0 +1,166 @@
+/* 
+    Document   : style.css
+    Created on : 28-mrt-2011, 16:32:08
+    Author     : Daniel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+90B4FF	8296C2	3258AA	B0C9FF	CADBFF
+
+
+http://colorschemedesigner.com/#3K12ofv--uDA1
+*/
+*   {
+    font-family: verdana;
+    font-size: 11px;
+}
+root { 
+    display: block;
+}
+a.confirm   {
+    cursor:pointer;
+}
+input,select,textarea	{
+    box-sizing:content-box;
+    -ms-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box; 
+}
+div#tabs    table   {
+    width:100%;
+}
+.uneven {
+    background-color: #eee;
+}
+/* home */
+td.Datum    {
+    width:70px;
+    text-align:right;
+}
+td.T ,td.R  {
+    width:15px;
+}
+td.O	{
+    width:60px;
+}
+/* Klant detail pagina */
+table#notitieRow	{
+    margin-top: 30px;
+}
+table#notitieRow textarea   {
+    width:646px;
+    padding:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+table#notitieRow input, table#notitieRow select	{
+    padding:3px;
+    width:208px;
+}
+div#chartAll, div#chartWebsite  {
+    width: 320px;
+}
+div#omzetTable	{
+    float:right;
+    width: 320px;
+}
+td.Btw,td.Totaal,td.VZK {
+    text-align: right;
+    width:80px;
+}
+td.BT   {
+    width:20px;
+}
+div#afgerond,div#betaald,div#verzonden,div#ingevoerd    {
+    width:133px;
+    padding:10px 10px;
+    padding-bottom: 12px;
+    float:left;
+}   
+a   {
+    color:#000;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+div.gray    {
+    background-image:url(/_public/_img/arrow_gray.jpg);
+}
+div.red    {
+    background-image:url(/_public/_img/arrow_red.jpg);
+}
+div.orange    {
+    background-image:url(/_public/_img/arrow_orange.jpg);
+}
+div.yellow    {
+    background-image:url(/_public/_img/arrow_yellow.jpg);
+}
+div.green    {
+    background-image:url(/_public/_img/arrow_green.jpg);
+}
+
+.pdfTextarea    {
+    width:100%;
+    height:75px;
+}
+input.key   {
+    width:200px;
+}
+input.val   {
+    width:370px
+}
+td.Naam {
+    font-weight: 600;
+}
+td.Besproken    {
+    font-style: italic;
+    color:#888;
+}
+.wrong  {
+    color:red;
+    font-weight: bold;
+}
+table#notifications  {
+    width:100%;
+}
+table#notifications td {
+    padding:5px;
+    margin:0px;
+}
+span#numNotify	{
+    background-color:#F03D25;
+    color:#fff;
+    font-size:12px;
+    padding:2px;
+    position: relative;
+    top:-5px;
+    left:-5px;
+    font-weight: bold;
+    z-index: 2;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    box-shadow: 0 1px 0 rgba(200, 200, 200, 0.77);
+}
+div#opties a {
+    margin-bottom:20px;
+    
+}
+/*notitie/add*/
+    table#notitie input, table#notitie select , table#notitie textarea  {
+	padding:15px;
+	margin:10px;
+	font-size:14px;
+	height:20px;
+	width:660px;
+	border:1px solid #999;
+    }
+    table#notitie textarea  {
+	height:175px;
+    }
+    table#notitie    {
+	width:100%;
+    }

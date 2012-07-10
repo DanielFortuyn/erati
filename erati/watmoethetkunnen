@@ -1,0 +1,70 @@
+Wat zou het moeten kunnen
+
+Klanten
+	- Maken
+	- Wijzigen
+	- Bekijken
+	- prijsafspraken
+	- Adres beheer
+	- Contactpersonenbeheer
+	- Notities
+	
+Leveranciers
+	- Maken
+	- Wijzigen
+	- Bekijken
+	- Inkoop orders
+	- Besteladvies
+	- Notities
+	
+Producten
+	- Maken
+	- Wijzigen
+	- Bekijken
+	- Schap kaartjes maken
+	- Doos etiketten
+	- Voorraadbeheer
+	- Barcodes maken
+	- Aanbiedingen
+	- Notities
+	- Fotobeheer
+	- Website teksten beheer
+	- Product groep beheer
+
+Medewerker beheer
+	- Gebruikers toevoegen / verwijderen 
+	- Groepen voor meldingen
+	- Afdelingen
+	- Notities
+	
+Orders
+	- Maken
+	- Wijzigen
+	- Bekijken
+	- Afdrukken
+	- Betaalsysteem
+	- Administratief systeem
+	- Debiteuren beheeer
+	- Betaalsysteem (iDeal intergratie)
+	
+Documenten
+	- Offertes
+	- Facturen
+	- Herrinneringen
+	- Kassabon
+	- Afleverbon
+	- 
+
+Statistieken
+	- Omzet Overzicht
+
+Koppeling website
+Voorraad beheer
+Event Tracker
+
+Notities
+
+Import / Export functionaliteit
+	Communicatie met leverancier (XML Deel)
+	Email updates (Trackersysteem, email client geintergreerd)
+

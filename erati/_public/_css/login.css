@@ -1,0 +1,42 @@
+div#error   {
+    color:red;
+    font-weight: bold;
+    padding-top: 5px;
+    margin-left:10px;
+    border:0px;
+    background: none;
+    text-align: center;
+    width:350px;
+
+}
+body	{
+		background-color:#c8c8c8;
+		margin:0px;
+	}
+	#center	{
+		margin-top:250px;
+		padding-left:48px;
+		padding-top:85px;
+		width:450px;
+		background: url('/_public/_img/login.png') top center no-repeat;
+		margin-left: auto;
+		margin-right: auto;
+		height:190px;
+	}
+		input	{
+			border:0px;
+			height:20px;
+			padding:8px;
+			width:384px;
+			background-color:#fff;
+		}
+		input#user  {
+		    border-bottom: 1px solid #999;
+		}
+		.inactive   {
+		    font-family: sans-serif;
+		    font-style: italic;
+		    color:#ccc;
+		    text-align: center;
+		    font-size: 10px;
+		}
