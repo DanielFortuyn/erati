@@ -1,0 +1,3 @@
+[10-Jul-2012][generic] Postgresql connect error: SQLSTATE[08006] [7] FATAL:  password authentication failed for user "www-data"
+[10-Jul-2012][generic] Postgresql connect error: SQLSTATE[08006] [7] FATAL:  password authentication failed for user "www-data"
+[10-Jul-2012][generic] Postgresql connect error: pgsql:dbname= SQLSTATE[08006] [7] FATAL:  password authentication failed for user "www-data"

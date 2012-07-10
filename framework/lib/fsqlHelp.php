@@ -41,6 +41,9 @@ class lib_fsqlHelp	{
                 if($reg->settings->mysql_db)    {
                     $this->db = $reg->mysql->initDb($reg->settings->mysql_db);
                 }
+		if($reg->settings->postgres_db)	{
+		    $this->db = $reg->postgresql->initDb($reg->settings->postgres_db);
+		}
 	}
 
 	public function find($table = '',$query = '',$order = '',$dir = '',$start = '',$num = '',$db = '')	{
@@ -268,7 +271,7 @@ class lib_fsqlHelp	{
 		}	else {
 			$sql .= " * "; 
 		}
-		$sql .= " FROM " . $this->table;
+		$sql .= " FROM \"{$this->table}\" ";
 
                 $sql = $this->buildWhere($sql);
 		
@@ -276,8 +279,11 @@ class lib_fsqlHelp	{
 			$sql .= " ORDER BY " . $this->order . " " . $this->dir;
 		}
 		if($this->num != "")	{
-			$sql .= " LIMIT " . $this->start . "," . $this->num;
+			$sql .= " LIMIT " . $this->num . " ";
 		}
+		if($this->start != "")	{
+			$sql .= " OFFSET {$this->start} ";
+		}   
 		
 		$this->sql = $sql;
 	}

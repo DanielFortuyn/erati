@@ -23,8 +23,9 @@ class application_post	{
 	}
 	private function login($reg,$u,$p)	{
 		//$notify = $this->reg->lib('notify');
-                $model =  "model_" . $reg->settings->mysql_db . "_" . $reg->settings->default_user_object;
+                $model =  "model_" . $reg->settings->postgres_db . "_" . $reg->settings->default_user_object;
 		$res = lib_fsql::findOne($reg->settings->default_user_object,"email = '$u' AND password = MD5('$p')");
+		
 		if(!$res)	{
 			$reg->view->addError("invalid combination");   
 			//$notify->addNote(6,false,array($u,$p,$_SERVER['REMOTE_ADDR']),"Login poging mislukt.");

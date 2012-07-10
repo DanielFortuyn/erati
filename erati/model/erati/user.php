@@ -84,7 +84,7 @@ class model_erati_user extends model_base  {
 
 	function insert()	{
 		$reg = application_register::getInstance();
-		$db = $reg->mysql->erati;
+		$db = $reg->postgresql->erati;
 		$sql = "INSERT INTO user(id,name,password,email,level,department,lastLoginTime) VALUES (:id,:name,:password,:email,:level,:department,:lastLoginTime)";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
@@ -102,8 +102,8 @@ class model_erati_user extends model_base  {
 
 	function update()	{
 		$reg = application_register::getInstance();
-		$db = $reg->mysql->erati;
-		 $sql = "UPDATE user SET id= :id,name= :name,password= :password,email= :email,level= :level,department= :department,lastLoginTime= :lastLoginTime WHERE id =  '" . $this->getId() . "'";
+		$db = $reg->postgresql->erati;
+		$sql = "UPDATE user SET id= :id,name= :name,password= :password,email= :email,level= :level,department= :department,lastLoginTime= :lastLoginTime WHERE id =  '" . $this->getId() . "'";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
 		if(!$stmt->execute())	{
