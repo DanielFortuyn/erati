@@ -10,3 +10,9 @@ import/klant:
 http://www.wikivs.com/wiki/MySQL_vs_PostgreSQL 
 
 Laatste test voor bed
+
+
+#!/bin/bash
+cd /var/www/_erati_production/
+git pull origin master
+~
