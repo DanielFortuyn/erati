@@ -102,7 +102,7 @@ class controller_import extends controller_b    {
                     $pts = explode("\t",$v);
                     $klantnr = explode(" ",$pts[1]);
                     $klantnr = $klantnr[0];
-                    $sdb = $this->reg->postgres->initDb($db);
+                    $sdb = $this->reg->mysql->initDb($db);
                     $m = lib_fsql::findOne('klantOmzet',array('klantnr' => $klantnr),$sdb);
                     $yf = 'setOmzet' . $y;
                     
@@ -140,7 +140,7 @@ class controller_import extends controller_b    {
 
             $y = ($this->r['y']) ? $this->r['y'] : date('Y');
             
-            $db = $this->reg->postgres->initDb('db');
+            $db = $this->reg->mysql->initDb('db');
             $db->exec("TRUNCATE verktot$y");
             $f = file($this->ftp.'transfer/omzarte.asc');
 
@@ -340,7 +340,7 @@ class controller_import extends controller_b    {
     }
     
     public function notities()    {
-        $oudeNotities = lib_fsql::find('notities','','','','','',$this->reg->postgres->initDb('db'));
+        $oudeNotities = lib_fsql::find('notities','','','','','',$this->reg->mysql->initDb('db'));
         echo "<pre>";
         if($oudeNotities)   {
             foreach($oudeNotities as $n)    {
@@ -377,7 +377,7 @@ class controller_import extends controller_b    {
                 }
             }  
         }
-        $oudeNotities = lib_fsql::find('levNote','','','','','',$this->reg->postgres->initDb('db'));
+        $oudeNotities = lib_fsql::find('levNote','','','','','',$this->reg->mysql->initDb('db'));
         echo "<pre>";
         if($oudeNotities)   {
             foreach($oudeNotities as $n)    {
