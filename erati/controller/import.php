@@ -147,7 +147,7 @@ class controller_import extends controller_b    {
                     $contactModel = false;
                     
                     if ($v[4] != '') {
-                        if((stripos('t.a.v.',$v[4]) === false) && (stripos('afd.',$v[4]) === false) && (stripos('tav',$v[4]) === false) && (stripos('afdeling',$v[4]) === false)) {
+                        if((stripos($v[4],'t.a.v.') === false) and (stripos($v[4],'afd.') === false) and (stripos($v[4],'tav') === false) && (stripos($v[4],'afdeling') === false) && (stripos($v[4],'locatie') === false)) {
                             $contactModel = new model_erati_contact();
                             $contactModel->setCustomerId($m->getId());
                             if ($v[15] == "") {
@@ -178,14 +178,16 @@ class controller_import extends controller_b    {
                             die('error: save contact');
                         }
                     }
-                    /* stoppen bij 40 rijen om te testen 
-                    if($i == 40)    {
+                    //stoppen bij 40 rijen om te testen 
+                    /*if($i == 40)    {
                         die('Einde verhaal');
                     }
                     */
+                    
                 }
             }
             echo "Klaar. {$i} rijen toegevoegd";
+            return false;
         }
     }
 ?>
