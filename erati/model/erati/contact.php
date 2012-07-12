@@ -75,7 +75,7 @@ class model_erati_contact extends model_base  {
 	}
 
 	public function setPhone($phone)	{
-		$this->phone = $phone;
+		$this->phone = $this->cleanPhoneNumber($phone);
 	}
 
 	public function getPhone()		{

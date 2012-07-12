@@ -51,9 +51,9 @@ $b .= "//////////////////////////////////////////////////\r\n\r\n\r\n";
                 $b .= "\tfunction insert()	{\r\n";
 		
 		$b .= "\t\t\$reg = application_register::getInstance();\r\n";
-                $b .= "\t\t\$db = \$reg->mysql->{$db->name};\r\n";
+                $b .= "\t\t\$db = \$reg->mysql->{$dbname};\r\n";
 		
-		$b .= "\t\t\$sql = \"INSERT INTO ". $r['table'] . "(";
+		$b .= "\t\t\$sql = \"INSERT INTO ". $tbl . " (";
 		$i=0;
 		foreach($field as $k)	{
 			if($i == 0)	{
@@ -94,9 +94,9 @@ $b .= "//////////////////////////////////////////////////\r\n\r\n\r\n";
 		$b .= "\tfunction update()	{\r\n";
 		
 		$b .= "\t\t\$reg = application_register::getInstance();\r\n";
-                $b .= "\t\t\$db = \$reg->mysql->{$db->name};\r\n";
+                $b .= "\t\t\$db = \$reg->mysql->{$dbname};\r\n";
 		
-		$b .= "\t\t \$sql = \"UPDATE {$r['table']} SET ";
+		$b .= "\t\t \$sql = \"UPDATE {$tbl} SET ";
 		$i=0;
 		foreach($field as $k)	{
 			if($i == 0)	{
@@ -124,9 +124,9 @@ $b .= "//////////////////////////////////////////////////\r\n\r\n\r\n";
 		// DELETE	
 		$b .= "\t// DELETE //\r\n\r\n";
 		$b .= "\tpublic function delete()	{\r\n";
-		$b .= "\t\t \$sql = \"DELETE FROM {$r['table']} WHERE id = '\". \$this->getId().\"'\";\r\n";
+		$b .= "\t\t \$sql = \"DELETE FROM {$tbl} WHERE id = '\". \$this->getId().\"'\";\r\n";
 		$b .= "\t\t\$reg = application_register::getInstance();\r\n";
-                $b .= "\t\t\$db = \$reg->mysql->{$db->name};\r\n";
+                $b .= "\t\t\$db = \$reg->mysql->{$dbname};\r\n";
 		$b .= "\t\t if(\$db->exec(\$sql) === false)	{\r\n";
 		$b .= "\t\t\t die(\$db->errorInfo());\r\n";
 		$b .= "\t\t }\r\n";
@@ -146,7 +146,7 @@ $b .= "//////////////////////////////////////////////////\r\n\r\n\r\n";
 		// ToString
 		$b .= "\t// ToString //\r\n\r\n";
 		$b .= "\tfunction __toString()	{\r\n";
-		$b .= "\t\treturn \"{$r['table']}\";\r\n";
+		$b .= "\t\treturn \"{$tbl}\";\r\n";
 		$b .= "\t}\r\n\r\n";
 		
 		// validate 

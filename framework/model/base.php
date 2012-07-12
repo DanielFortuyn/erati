@@ -59,5 +59,9 @@ class model_base    {
 	    }
 	    $this->uid = $uid;
 	}
+	public function cleanPhoneNumber($dirtyNumber)	{
+		$cleanNumber = str_replace(array(" ","(",")","-"),array("","","",''), $dirtyNumber);
+		return $cleanNumber;
+	}
 }
 ?>

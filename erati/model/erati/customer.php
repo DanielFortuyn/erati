@@ -5,7 +5,7 @@
 // © Daniel Fortuyn 2012			//
 // Ver 2.00a					//
 //						//
-// Last Edit: Thu, 12 Jul 2012 16:51:18 +0200	//
+// Last Edit: Thu, 12 Jul 2012 17:48:43 +0200	//
 // CRM 3 update 				//
 //						//
 // Database:	erati			//
@@ -32,6 +32,8 @@ class model_erati_customer extends model_base  {
 	protected $vat;
 	protected $kvk;
 	protected $origin;
+	protected $time;
+	protected $uid;
 	protected $branchId;
 	protected $discountGroupId;
 	protected $priceGroupId;
@@ -102,7 +104,7 @@ class model_erati_customer extends model_base  {
 	}
 
 	public function setPhone($phone)	{
-		$this->phone = $phone;
+		$this->phone = $this->cleanPhoneNumber($phone);
 	}
 
 	public function getPhone()		{
@@ -110,7 +112,7 @@ class model_erati_customer extends model_base  {
 	}
 
 	public function setFax($fax)	{
-		$this->fax = $fax;
+		$this->fax = $this->cleanPhoneNumber($fax);
 	}
 
 	public function getFax()		{
@@ -165,6 +167,14 @@ class model_erati_customer extends model_base  {
 		return $this->origin;
 	}
 
+	public function getTime()		{
+		return $this->time;
+	}
+
+	public function getUid()		{
+		return $this->uid;
+	}
+
 	public function setBranchId($branchId)	{
 		$this->branchId = $branchId;
 	}
@@ -201,8 +211,8 @@ class model_erati_customer extends model_base  {
 
 	function insert()	{
 		$reg = application_register::getInstance();
-		$db = $reg->mysql->;
-		$sql = "INSERT INTO (id,name,attention,street,house,zipcode,city,country,phone,fax,email,iban,currency,vat,kvk,origin,branchId,discountGroupId,priceGroupId,data) VALUES (:id,:name,:attention,:street,:house,:zipcode,:city,:country,:phone,:fax,:email,:iban,:currency,:vat,:kvk,:origin,:branchId,:discountGroupId,:priceGroupId,:data)";
+		$db = $reg->mysql->erati;
+		$sql = "INSERT INTO customer (id,name,attention,street,house,zipcode,city,country,phone,fax,email,iban,currency,vat,kvk,origin,time,uid,branchId,discountGroupId,priceGroupId,data) VALUES (:id,:name,:attention,:street,:house,:zipcode,:city,:country,:phone,:fax,:email,:iban,:currency,:vat,:kvk,:origin,:time,:uid,:branchId,:discountGroupId,:priceGroupId,:data)";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
 		if(!$stmt->execute())	{;
@@ -219,8 +229,8 @@ class model_erati_customer extends model_base  {
 
 	function update()	{
 		$reg = application_register::getInstance();
-		$db = $reg->mysql->;
-		 $sql = "UPDATE  SET id= :id,name= :name,attention= :attention,street= :street,house= :house,zipcode= :zipcode,city= :city,country= :country,phone= :phone,fax= :fax,email= :email,iban= :iban,currency= :currency,vat= :vat,kvk= :kvk,origin= :origin,branchId= :branchId,discountGroupId= :discountGroupId,priceGroupId= :priceGroupId,data= :data WHERE id =  '" . $this->getId() . "'";
+		$db = $reg->mysql->erati;
+		 $sql = "UPDATE customer SET id= :id,name= :name,attention= :attention,street= :street,house= :house,zipcode= :zipcode,city= :city,country= :country,phone= :phone,fax= :fax,email= :email,iban= :iban,currency= :currency,vat= :vat,kvk= :kvk,origin= :origin,time= :time,uid= :uid,branchId= :branchId,discountGroupId= :discountGroupId,priceGroupId= :priceGroupId,data= :data WHERE id =  '" . $this->getId() . "'";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
 		if(!$stmt->execute())	{
@@ -236,9 +246,9 @@ class model_erati_customer extends model_base  {
 	// DELETE //
 
 	public function delete()	{
-		 $sql = "DELETE FROM  WHERE id = '". $this->getId()."'";
+		 $sql = "DELETE FROM customer WHERE id = '". $this->getId()."'";
 		$reg = application_register::getInstance();
-		$db = $reg->mysql->;
+		$db = $reg->mysql->erati;
 		 if($db->exec($sql) === false)	{
 			 die($db->errorInfo());
 		 }
@@ -264,6 +274,8 @@ class model_erati_customer extends model_base  {
 		 $stmt->bindParam(':vat',$this->getVat());
 		 $stmt->bindParam(':kvk',$this->getKvk());
 		 $stmt->bindParam(':origin',$this->getOrigin());
+		 $stmt->bindParam(':time',$this->getTime());
+		 $stmt->bindParam(':uid',$this->getUid());
 		 $stmt->bindParam(':branchId',$this->getBranchId());
 		 $stmt->bindParam(':discountGroupId',$this->getDiscountGroupId());
 		 $stmt->bindParam(':priceGroupId',$this->getPriceGroupId());
@@ -274,13 +286,13 @@ class model_erati_customer extends model_base  {
 	// ToString //
 
 	function __toString()	{
-		return "";
+		return "customer";
 	}
 
 	 // Validate //
 
 	function validate()	{
-		$noNull = array('name','street','house','zipcode','city','country','phone','fax','email','iban','currency','vat','kvk','origin','branchid','discountgroupid','pricegroupid','data');
+		$noNull = array('name','street','house','zipcode','city','country','phone','fax','email','iban','currency','vat','kvk','origin','time','branchid','discountgroupid','pricegroupid','data');
 		foreach($noNull as $n)	{
 			$getMethod = 'get' . ucfirst($n);
 			$setMethod = 'set' . ucfirst($n);

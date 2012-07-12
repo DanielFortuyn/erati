@@ -96,85 +96,96 @@ class controller_import extends controller_b    {
             $str = "ftp://" . $this->ftp_u . ":" . $this->ftp_p. "@fs.baasbv.eu/TRANSFER/nawexp.asc";
             $f = file($str);
             if(count($f))	{
-                    if($this->m->erati->exec("DELETE FROM customer") === false)	{
-			var_dump($this->m);
-			throw new application_exception_init("SQL werkt niet.");
+                if(($this->m->erati->exec("DELETE FROM customer") === false) or ($this->m->erati->exec("ALTER TABLE customer AUTO_INCREMENT = 0") === false))	{
+    			    var_dump($this->m);
+    			    throw new application_exception_init("SQL werkt niet.");
+                }
+		        if(($this->m->erati->exec("DELETE FROM contact") === false)	or ($this->m->erati->exec("ALTER TABLE contact AUTO_INCREMENT = 0") === false)) {
+    			    var_dump($this->m);
+    			    throw new application_exception_init("SQL werkt niet.");
+		        }
+                $i = 0;
+                foreach($f as $k => $l)	{
+                    $i++;
+                    $v = explode("\t",$l);
+                    foreach($v as &$p)   {
+                        $p = trim($p);
                     }
-		    if($this->m->erati->exec("DELETE FROM contact") === false)	{
-			var_dump($this->m);
-			throw new application_exception_init("SQL werkt niet.");
-		    }
-		  
-		  
-                    foreach($f as $k => $l)	{
-                        $v = explode("\t",$l);
-                        foreach($v as &$p)   {
-                            $p = trim($p);
-                        }
-			             
-                        $ding = explode(" ",$v[5]);
-                        $huisnr = $ding[count($ding)-1];
-                        unset($ding[count($ding)-1]);
-                        $straat = implode(" ",$ding);
+    	             
+                    $ding = explode(" ",$v[5]);
+                    $huisnr = $ding[count($ding)-1];
+                    unset($ding[count($ding)-1]);
+                    $straat = implode(" ",$ding);
 
 
-                        $m = new model_erati_customer();
+                    $m = new model_erati_customer();
 
-                        $m->setId($v[0]);
-                        $m->setName($v[3]);
-                        
-                        $m->setAttention('');
+                    $m->setId($v[0]);
+                    $m->setName($v[3]);
+                    
+                    $m->setAttention('');
 
-                        $m->setStreet($straat);
-                        $m->setHouse($huisnr);
-                        $m->setZipcode($v[6]);
-                        $m->setCity($v[7]);
-                        //$m->setCountry(); --> default naar nederland
-                        $m->setPhone($v[9]);
-                        $m->setFax($v[10]);
-                        $m->setEmail($v[17]);
-                        $m->setIban($v[12]);
-                        $m->setCurrency($v[14]);
-                        $m->setVat($v[18]);
-                        $m->setKvk($v[19]);
-                        $m->setOrigin('import') --> default naar 
-                        $m->setTime(time());
-                        $m->setBranchId(''); // bestaat nog niet
-                        $m->setDiscountGroupId($v[8]);
-                        $m->setPriceGroupId($v[11]);
-                        $m->setData(serialize($v));
+                    $m->setStreet($straat);
+                    $m->setHouse($huisnr);
+                    $m->setZipcode($v[6]);
+                    $m->setCity($v[7]);
+                    $m->setCountry('Nederland');
+                    $m->setPhone($v[9]);
+                    $m->setFax($v[10]);
+                    $m->setEmail($v[17]);
+                    $m->setIban($v[12]);
+                    $m->setCurrency($v[14]);
+                    $m->setVat($v[18]);
+                    $m->setKvk($v[19]);
+                    $m->setOrigin('import');
+                    $m->setTime(time());
+                    $m->setBranchId(''); // bestaat nog niet
+                    $m->setDiscountGroupId($v[8]);
+                    $m->setPriceGroupId($v[11]);
+                    $m->setData(serialize($v));
 
-                        
-                        if ($v[4] != '') {
-                            if((stripos('t.a.v.'$v[4]) === false) && (stripos('afd.',$v[4]) === false) && (stripos('tav'$v[4]) === false) && (stripos('afdeling' $v[4]) === false)) {
-                                $contactModel = new model_erati_contact();
-                                $contactModel->setCustomerId($m->getId());
-                                if ($v[15] == "") {
-                                    $titleName = $this->splitTitleName($v[4]);
-                                    $contactModel->setName($titleName["name"]);
-                                    $contactModel->setTitle($titleName["title"]);
-                                }
-                                else {
-                                    $contactModel->setName($v[4]);
-                                    $contactModel->setTitle($v[15]);
-                                }
-                                $contactModel->setType('default');
-                                $contactModel->setEmail('oude@import.nl');
-                                $contactModel->setMobile($v[16]);
-                                if (!$contactModel->insert()) {
-    				                var_dump($contactModel);
-                                    die('error: save contact');
-                                }
-                            } else {
-                                $m->setAttention($v[4]);    
+                    $contactModel = false;
+                    
+                    if ($v[4] != '') {
+                        if((stripos('t.a.v.',$v[4]) === false) && (stripos('afd.',$v[4]) === false) && (stripos('tav',$v[4]) === false) && (stripos('afdeling',$v[4]) === false)) {
+                            $contactModel = new model_erati_contact();
+                            $contactModel->setCustomerId($m->getId());
+                            if ($v[15] == "") {
+                                $titleName = $this->splitTitleName($v[4]);
+                                $contactModel->setName($titleName["name"]);
+                                $contactModel->setTitle($titleName["title"]);
                             }
-                        }
-                        if(!$m->insert())   {
-                            die('error: insert customer');
+                            else {
+                                $contactModel->setName($v[4]);
+                                $contactModel->setTitle($v[15]);
+                            }
+                            $contactModel->setType('default');
+                            $contactModel->setEmail('oude@import.nl');
+                            $contactModel->setMobile($v[16]);
+                        } else {
+                            $m->setAttention($v[4]);    
                         }
                     }
+
+                    if(!$m->insert())   {
+                        var_dump($m);
+                        echo $m->sql;
+                        die('error: insert customer');
+                    }
+                    if($contactModel)   {
+                        if (!$contactModel->insert()) {
+                            var_dump($contactModel);
+                            die('error: save contact');
+                        }
+                    }
+                    /* stoppen bij 40 rijen om te testen 
+                    if($i == 40)    {
+                        die('Einde verhaal');
+                    }
+                    */
+                }
             }
-            echo 'Klaar.';
+            echo "Klaar. {$i} rijen toegevoegd";
+        }
     }
-}
 ?>
