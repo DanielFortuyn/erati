@@ -61,7 +61,7 @@ class model_base    {
 	}
 	public function cleanPhoneNumber($dirtyNumber)	{
 		$cleanNumber = str_replace(array(" ","(",")","-"),array("","","",''), $dirtyNumber);
-		return $cleanNumber;
+		return is_numeric($cleanNumber) ? $cleanNumber : "";
 	}
 }
 ?>

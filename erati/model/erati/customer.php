@@ -5,7 +5,7 @@
 // © Daniel Fortuyn 2012			//
 // Ver 2.00a					//
 //						//
-// Last Edit: Thu, 12 Jul 2012 17:48:43 +0200	//
+// Last Edit: Thu, 12 Jul 2012 18:50:53 +0200	//
 // CRM 3 update 				//
 //						//
 // Database:	erati			//
@@ -36,7 +36,6 @@ class model_erati_customer extends model_base  {
 	protected $uid;
 	protected $branchId;
 	protected $discountGroupId;
-	protected $priceGroupId;
 	protected $data;
 
 	public function setId($id)	{
@@ -88,7 +87,7 @@ class model_erati_customer extends model_base  {
 	}
 
 	public function setCity($city)	{
-		$this->city = ucfirst(strtolower($city));
+		$this->city = $city;
 	}
 
 	public function getCity()		{
@@ -104,7 +103,7 @@ class model_erati_customer extends model_base  {
 	}
 
 	public function setPhone($phone)	{
-		$this->phone = $this->cleanPhoneNumber($phone);
+		$this->phone = $phone;
 	}
 
 	public function getPhone()		{
@@ -112,7 +111,7 @@ class model_erati_customer extends model_base  {
 	}
 
 	public function setFax($fax)	{
-		$this->fax = $this->cleanPhoneNumber($fax);
+		$this->fax = $fax;
 	}
 
 	public function getFax()		{
@@ -191,14 +190,6 @@ class model_erati_customer extends model_base  {
 		return $this->discountGroupId;
 	}
 
-	public function setPriceGroupId($priceGroupId)	{
-		$this->priceGroupId = $priceGroupId;
-	}
-
-	public function getPriceGroupId()		{
-		return $this->priceGroupId;
-	}
-
 	public function setData($data)	{
 		$this->data = $data;
 	}
@@ -212,7 +203,7 @@ class model_erati_customer extends model_base  {
 	function insert()	{
 		$reg = application_register::getInstance();
 		$db = $reg->mysql->erati;
-		$sql = "INSERT INTO customer (id,name,attention,street,house,zipcode,city,country,phone,fax,email,iban,currency,vat,kvk,origin,time,uid,branchId,discountGroupId,priceGroupId,data) VALUES (:id,:name,:attention,:street,:house,:zipcode,:city,:country,:phone,:fax,:email,:iban,:currency,:vat,:kvk,:origin,:time,:uid,:branchId,:discountGroupId,:priceGroupId,:data)";
+		$sql = "INSERT INTO customer (id,name,attention,street,house,zipcode,city,country,phone,fax,email,iban,currency,vat,kvk,origin,time,uid,branchId,discountGroupId,data) VALUES (:id,:name,:attention,:street,:house,:zipcode,:city,:country,:phone,:fax,:email,:iban,:currency,:vat,:kvk,:origin,:time,:uid,:branchId,:discountGroupId,:data)";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
 		if(!$stmt->execute())	{;
@@ -230,7 +221,7 @@ class model_erati_customer extends model_base  {
 	function update()	{
 		$reg = application_register::getInstance();
 		$db = $reg->mysql->erati;
-		 $sql = "UPDATE customer SET id= :id,name= :name,attention= :attention,street= :street,house= :house,zipcode= :zipcode,city= :city,country= :country,phone= :phone,fax= :fax,email= :email,iban= :iban,currency= :currency,vat= :vat,kvk= :kvk,origin= :origin,time= :time,uid= :uid,branchId= :branchId,discountGroupId= :discountGroupId,priceGroupId= :priceGroupId,data= :data WHERE id =  '" . $this->getId() . "'";
+		 $sql = "UPDATE customer SET id= :id,name= :name,attention= :attention,street= :street,house= :house,zipcode= :zipcode,city= :city,country= :country,phone= :phone,fax= :fax,email= :email,iban= :iban,currency= :currency,vat= :vat,kvk= :kvk,origin= :origin,time= :time,uid= :uid,branchId= :branchId,discountGroupId= :discountGroupId,data= :data WHERE id =  '" . $this->getId() . "'";
 		$stmt = $db->prepare($sql);
 		$stmt = $this->bindParams($stmt);
 		if(!$stmt->execute())	{
@@ -278,7 +269,6 @@ class model_erati_customer extends model_base  {
 		 $stmt->bindParam(':uid',$this->getUid());
 		 $stmt->bindParam(':branchId',$this->getBranchId());
 		 $stmt->bindParam(':discountGroupId',$this->getDiscountGroupId());
-		 $stmt->bindParam(':priceGroupId',$this->getPriceGroupId());
 		 $stmt->bindParam(':data',$this->getData());
 		 return $stmt;
 	}
@@ -292,7 +282,7 @@ class model_erati_customer extends model_base  {
 	 // Validate //
 
 	function validate()	{
-		$noNull = array('name','street','house','zipcode','city','country','phone','fax','email','iban','currency','vat','kvk','origin','time','branchid','discountgroupid','pricegroupid','data');
+		$noNull = array('name','street','house','zipcode','city','country','phone','fax','email','iban','currency','vat','kvk','origin','time','branchid','discountgroupid','data');
 		foreach($noNull as $n)	{
 			$getMethod = 'get' . ucfirst($n);
 			$setMethod = 'set' . ucfirst($n);

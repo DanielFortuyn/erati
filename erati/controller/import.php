@@ -139,15 +139,14 @@ class controller_import extends controller_b    {
                     $m->setKvk($v[19]);
                     $m->setOrigin('import');
                     $m->setTime(time());
-                    $m->setBranchId(''); // bestaat nog niet
-                    $m->setDiscountGroupId($v[8]);
-                    $m->setPriceGroupId($v[11]);
+                    $m->setBranchId('');                    // bestaat nog niet
+                    $m->setDiscountGroupId($v[11]);         // Gevuld met oude prijsgroep, niemand gebruikte namelijk discount groups, echter wel een betere naam.
                     $m->setData(serialize($v));
 
                     $contactModel = false;
                     
                     if ($v[4] != '') {
-                        if((stripos($v[4],'t.a.v.') === false) and (stripos($v[4],'afd.') === false) and (stripos($v[4],'tav') === false) && (stripos($v[4],'afdeling') === false) && (stripos($v[4],'locatie') === false)) {
+                        if((stripos($v[4],'t.a.v.') === false) and (stripos($v[4],'afd. ') === false) and (stripos($v[4],'tav ') === false) && (stripos($v[4],'afdeling') === false) && (stripos($v[4],'locatie') === false)) {
                             $contactModel = new model_erati_contact();
                             $contactModel->setCustomerId($m->getId());
                             if ($v[15] == "") {
@@ -163,7 +162,7 @@ class controller_import extends controller_b    {
                             $contactModel->setEmail('oude@import.nl');
                             $contactModel->setMobile($v[16]);
                         } else {
-                            $m->setAttention($v[4]);    
+                            $m->setAttention(str_replace(array("tav","t.a.v."), array("",""), $v[4]));    
                         }
                     }
 
@@ -179,10 +178,12 @@ class controller_import extends controller_b    {
                         }
                     }
                     //stoppen bij 40 rijen om te testen 
-                    /*if($i == 40)    {
+                    /*
+                    if($i == 40)    {
                         die('Einde verhaal');
                     }
                     */
+                    
                     
                 }
             }

@@ -91,7 +91,7 @@ class model_erati_contact extends model_base  {
 	}
 
 	public function setMobile($mobile)	{
-		$this->mobile = $mobile;
+		$this->mobile = $this->cleanPhoneNumber($mobile);
 	}
 
 	public function getMobile()		{
