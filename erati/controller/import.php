@@ -183,8 +183,6 @@ class controller_import extends controller_b    {
                         die('Einde verhaal');
                     }
                     */
-                    
-                    
                 }
             }
             echo "Klaar. {$i} rijen toegevoegd";

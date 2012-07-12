@@ -60,8 +60,9 @@ class model_base    {
 	    $this->uid = $uid;
 	}
 	public function cleanPhoneNumber($dirtyNumber)	{
-		$cleanNumber = str_replace(array(" ","(",")","-"),array("","","",''), $dirtyNumber);
-		return is_numeric($cleanNumber) ? $cleanNumber : "";
+		// regex function om te kijken of het echt een telnummer is
+		$cleanNumber = trim(str_replace(array(" ","(",")","-"),array("","","",''), $dirtyNumber));
+		return (preg_match('/^\+?[0-9]+$/',$cleanNumber)) ? $cleanNumber : "";
 	}
 }
 ?>
