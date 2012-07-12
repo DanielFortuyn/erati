@@ -61,7 +61,8 @@ class application_register	{
 	    $this->postgresql	    = new application_postgresql($this);
 
 	    $this->view		    = new $this->viewType($this);
-	    $this->post		    = new application_post($this);   
+	    $this->post		    = new application_post($this);  
+
 	}
 	private function execute()  {
 	    if($this->security->preRequest())   {

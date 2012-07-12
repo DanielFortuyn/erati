@@ -15,7 +15,9 @@ class application_mysql	{
     
     function __construct($reg)	{
         if($reg->settings->mysql_db)    {
+
             $this->initDb($reg->settings->mysql_db);
+            $this->default = $this->{$reg->settings->mysql_db};
         }
         $reg->loadState += 32;
     }
@@ -24,19 +26,16 @@ class application_mysql	{
         $reg = application_register::getInstance();
         if($reg->settings->mysql_db)    {
             if(!is_a($this->$name,"pdo"))	{
-                $reg = application_register::getInstance();
-
                 $u = (empty($user)) ? $reg->settings->mysql_user : $user;
                 $p = (empty($pass)) ? $reg->settings->mysql_pass : $pass;
                 $h = (empty($host)) ? $reg->settings->mysql_host : $host;
-
-                $reg = application_register::getInstance();
-                $cstr = "mysql:dbname=" . $name . ";host=" . $h;
+                $cstr = "mysql:dbname=" . $name;
+		        $cstr .= ($h) ? ";host={$h}" : "";
                 try {
                     $this->$name = new pdo($cstr,$u,$p);
                     $this->$name->name = $name;
                 } catch  (PDOException $e) {
-                    $reg->log->entry("MySQL connect error: " . $e->getMessage());
+                    $reg->log->entry("MySQL connect error: {$cstr}" . $e->getMessage());
                     die("MYSQL connect error");
                 } 
                 

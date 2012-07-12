@@ -1,21 +1,10 @@
-<?php
-$r	    = $this->reg->request->r;
-$dbname	    = $r['db'];
-$db	    = $this->reg->mysql->initDb($dbname);
-$classname  = "model_{$r['db']}_{$r['table']}"; 
-$sql	    = "show columns from `" . $r['table']. "`";
-$results = $db->query($sql);
-                
-if($db->errorInfo())    {
-    //var_dump($db->errorInfo());
-}
+<?php 
 $nullFields = '';
-foreach($results as $row)	{
-    $field[] = $row['Field'];
-    $nullFields .= ($row['Null'] == 'NO' && $row['Field'] != 'id') ? "'" . strtolower($row['Field']) . "'," : "";
+foreach($fields as $f)	{
+    $field[] = $f['Field'];
+    $nullFields .= ($f['Null'] == 'NO' && $f['Field'] != 'id') ? "'" . strtolower($f['Field']) . "'," : "";
 }
 $nullFields = substr($nullFields,0,-1);
-
 		
 $b = "<?php\r\n\r\n";
 $b .= "//////////////////////////////////////////////////\r\n";
@@ -26,14 +15,14 @@ $b .= "//\t\t\t\t\t\t//\r\n";
 $b .= "// Last Edit: ".date('r')."\t//\r\n";
 $b .= "// CRM 3 update \t\t\t\t//\r\n";
 $b .= "//\t\t\t\t\t\t//\r\n";
-$b .= "// Database:\t{$db->name}\t\t\t//\r\n";
-$b .= "// Tabel:\t{$r['table']}\t\t\t\t//\r\n";
+$b .= "// Database:\t{$dbname}\t\t\t//\r\n";
+$b .= "// Tabel:\t{$tbl}\t\t\t//\r\n";
 $b .= "//\t\t\t\t\t\t//\r\n";
 $b .= "//////////////////////////////////////////////////\r\n\r\n\r\n";
 
                 $b .= "class {$classname}";
-		if(file_exists("model/" . str_replace("_","/",$dbname) . "/functions/" . $r['table']. ".php"))	{
-			$b .= " extends model_" . $dbname . "_functions_" . $r['table'];
+		if(file_exists("model/" . str_replace("_","/",$dbname) . "/functions/" . $tbl. ".php"))	{
+			$b .= " extends model_" . $dbname . "_functions_" . $tbl;
 		}   else    {
 			$b .= " extends model_base ";
 		}		

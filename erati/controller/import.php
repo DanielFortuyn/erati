@@ -111,55 +111,66 @@ class controller_import extends controller_b    {
                         foreach($v as &$p)   {
                             $p = trim($p);
                         }
-			
-                        $m = new model_erati_customer();
-                        $m->setId($v[0]);
-                        $m->setName($v[3]);
-                       
+			             
                         $ding = explode(" ",$v[5]);
                         $huisnr = $ding[count($ding)-1];
                         unset($ding[count($ding)-1]);
                         $straat = implode(" ",$ding);
+
+
+                        $m = new model_erati_customer();
+
+                        $m->setId($v[0]);
+                        $m->setName($v[3]);
+                        
+                        $m->setAttention('');
+
                         $m->setStreet($straat);
                         $m->setHouse($huisnr);
-                       
-                        $m->setZipCode($v[6]);
+                        $m->setZipcode($v[6]);
                         $m->setCity($v[7]);
-                        $m->setDiscountGroup($v[8]);
+                        //$m->setCountry(); --> default naar nederland
                         $m->setPhone($v[9]);
                         $m->setFax($v[10]);
-                        $m->setPriceGroup($v[11]);
-                        $m->setIBAN($v[12]);
-                        $m->setCurrencyCode($v[14]);
                         $m->setEmail($v[17]);
-                        $m->setVAT($v[18]);
+                        $m->setIban($v[12]);
+                        $m->setCurrency($v[14]);
+                        $m->setVat($v[18]);
                         $m->setKvk($v[19]);
-                        $m->setBranchCode(0);
+                        $m->setOrigin('import') --> default naar 
+                        $m->setTime(time());
+                        $m->setBranchId(''); // bestaat nog niet
+                        $m->setDiscountGroupId($v[8]);
+                        $m->setPriceGroupId($v[11]);
                         $m->setData(serialize($v));
-			
-                        if(!$m->insert())	{
-			    die('error: insert customer');
-			}
+
+                        
                         if ($v[4] != '') {
-                            
-                            $contactModel = new model_erati_contact();
-                            $contactModel->setCustomerId($m->getId());
-                            if ($v[15] == "") {
-                                $titleName = $this->splitTitleName($v[4]);
-                                $contactModel->setName($titleName["name"]);
-                                $contactModel->setTitle($titleName["title"]);
+                            if((stripos('t.a.v.'$v[4]) === false) && (stripos('afd.',$v[4]) === false) && (stripos('tav'$v[4]) === false) && (stripos('afdeling' $v[4]) === false)) {
+                                $contactModel = new model_erati_contact();
+                                $contactModel->setCustomerId($m->getId());
+                                if ($v[15] == "") {
+                                    $titleName = $this->splitTitleName($v[4]);
+                                    $contactModel->setName($titleName["name"]);
+                                    $contactModel->setTitle($titleName["title"]);
+                                }
+                                else {
+                                    $contactModel->setName($v[4]);
+                                    $contactModel->setTitle($v[15]);
+                                }
+                                $contactModel->setType('default');
+                                $contactModel->setEmail('oude@import.nl');
+                                $contactModel->setMobile($v[16]);
+                                if (!$contactModel->insert()) {
+    				                var_dump($contactModel);
+                                    die('error: save contact');
+                                }
+                            } else {
+                                $m->setAttention($v[4]);    
                             }
-                            else {
-                                $contactModel->setName($v[4]);
-                                $contactModel->setTitle($v[15]);
-                            }
-                            $contactModel->setType('default');
-                            $contactModel->setEmail('oude@import.nl');
-                            $contactModel->setMobile($v[16]);
-                            if (!$contactModel->insert()) {
-				var_dump($contactModel);
-                                die('error: save contact');
-                            }
+                        }
+                        if(!$m->insert())   {
+                            die('error: insert customer');
                         }
                     }
             }

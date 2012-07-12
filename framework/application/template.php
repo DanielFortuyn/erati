@@ -13,13 +13,13 @@ class application_template	{
 	
 	function __construct($file,$event = false)	{
 		    if(!$event) {
-			$reg = application_register::getInstance();
-			$event = $reg->controller->activeEvent;
+				$reg = application_register::getInstance();
+				$event = $reg->controller->activeEvent;
 		    }
 		    $this->event	= $event;
 		    $this->position = $event['position'];
-		    $this->hash	= $event['tplHash'];
-		    $this->file	= $file;
+		    $this->hash		= $event['tplHash'];
+		    $this->file		= $file;
 	}
 	public function dispatch()	{
 		if(substr($this->file,-5,5) != "cache")	{
